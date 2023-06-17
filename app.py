@@ -23,7 +23,7 @@ def listen_to_song():
 @app.route('/recommend', methods=['GET'])
 def recommend():
     params = request.get_json()
-    # TODO recommender.recommend(params)
+    # TODO return recommender.recommend(params)
     return f"This route will provide a set of recommendations for {params['user']}."
 
 
