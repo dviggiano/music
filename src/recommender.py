@@ -13,11 +13,11 @@ NUM_CLUSTERS = 8
 def load_model():
     if os.path.exists(MODEL_FILENAME):
         return pickle.load(open(MODEL_FILENAME, 'rb'))
-    else:
-        model = KMeans(n_clusters=NUM_CLUSTERS)
-        # TODO train using saved song library
-        pickle.dump(model, open(MODEL_FILENAME, 'wb'))
-        return model
+
+    model = KMeans(n_clusters=NUM_CLUSTERS)
+    # TODO train using saved song library
+    pickle.dump(model, open(MODEL_FILENAME, 'wb'))
+    return model
 
 
 class Recommender:
