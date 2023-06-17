@@ -2,7 +2,7 @@
 Prototype for a music recommendation engine based purely on musical attributes.
 
 ## Getting started
-### Create a virtual environment
+### Create a virtual environment (recommended)
 ```
 python3 -m venv venv
 ```
@@ -10,7 +10,7 @@ python3 -m venv venv
 ```
 venv\Scripts\activate
 ```
-### Mac OS/Linux
+#### Mac OS/Linux
 ```
 source venv/bin/activate
 ```
