@@ -2,9 +2,9 @@ import os
 import pickle
 from sklearn.cluster import KMeans
 
-from src.interpreter import Interpreter
-from src.isolator import Isolator
-from transformer import Transformer
+from .interpreter import Interpreter
+from .isolator import Isolator
+from .transformer import Transformer
 
 MODEL_FILENAME = 'model.sav'
 NUM_CLUSTERS = 8

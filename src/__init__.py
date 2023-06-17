@@ -1,1 +1,1 @@
-from recommender import Recommender
+from .recommender import Recommender
