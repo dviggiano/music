@@ -1,6 +1,9 @@
 from flask import Flask, request, render_template
 
+from src import Recommender
+
 app = Flask(__name__)
+recommender = Recommender()
 
 
 @app.route('/add', methods=['POST'])
@@ -20,6 +23,7 @@ def listen_to_song():
 @app.route('/recommend', methods=['GET'])
 def recommend():
     params = request.get_json()
+    # TODO recommender.recommend(params)
     return f"This route will provide a set of recommendations for {params['user']}."
 
 
