@@ -15,8 +15,9 @@ class Recommender:
     def add(self, song):
         """Converts song into relevant data, then adds it to the library."""
         # temporarily, only handle songs with one instrument layer
-        # sheet_music = map(self.isolator.isolate(song), self.transformer.layer_to_sheet)
-        # data = map(sheet_music, self.interpreter.interpret)
+        # sheet_music = map(self.transformer.layer_to_sheet, self.isolator.isolate(song))
+        # data_per_layer = map(self.interpreter.interpret, sheet_music)
+        # data = self.interpreter.coalesce(data_per_layer)
         sheet_music = self.transformer.layer_to_sheet(song['file'])
         data = self.interpreter.interpret(sheet_music)
         raise NotImplementedError
