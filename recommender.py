@@ -16,7 +16,7 @@ class Recommender:
         """Converts song into relevant data, then adds it to the library."""
         # temporarily, only handle songs with one instrument layer
         # layers = self.isolator.isolate(song).map(self.transformer.layer_to_sheet).map(self.interpreter.interpret)
-        layers = self.transformer.layer_to_sheet.map(self.interpreter.interpret)
+        data = self.transformer.layer_to_sheet.map(self.interpreter.interpret)
         raise NotImplementedError
 
     def recommend(self, params):
