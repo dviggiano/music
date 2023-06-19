@@ -5,7 +5,7 @@ NOTE_THRESHOLD = -35  # decibels required for sound to be considered a note
 
 
 class LayerModel:
-    """An interpretable data model of an instrument layer."""
+    """An interpretable data model of an instrument layer of a song."""
 
     def __init__(self, filename: str):
         """Builds an interpretable data model from an instrument layer MP3 file."""
