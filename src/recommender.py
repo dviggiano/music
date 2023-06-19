@@ -4,7 +4,7 @@ from sklearn.cluster import KMeans
 
 from .interpreter import Interpreter
 from .isolator import Isolator
-from .transformer import Transformer
+from .layer_model import LayerModel
 
 MODEL_FILENAME = 'model.sav'
 NUM_CLUSTERS = 8
@@ -23,18 +23,22 @@ def load_model():
 class Recommender:
     def __init__(self):
         self.isolator = Isolator()
-        self.transformer = Transformer()
         self.interpreter = Interpreter()
         self.model = load_model()
+        self.jobs = 0
 
     def add(self, song):
         """Converts song into relevant data, then adds it to the library."""
         # temporarily, only handle songs with one instrument layer
-        # sheet_music = map(self.transformer.layer_to_sheet, self.isolator.isolate(song))
-        # data_per_layer = map(self.interpreter.interpret, sheet_music)
+        # layer_model = map(self.transformer.layer_to_sheet, self.isolator.isolate(song))
+        # data_per_layer = map(self.interpreter.interpret, layer_model)
         # data = self.interpreter.orchestrate(data_per_layer)
-        sheet_music = self.transformer.layer_to_sheet(song['file'])
-        data = self.interpreter.interpret(sheet_music)
+        layer_filename = f'temp/{self.jobs}.mp3'
+        self.jobs += 1
+        song['file'].save(layer_filename)
+        layer_model = LayerModel(layer_filename)
+        os.remove(layer_filename)
+        data = self.interpreter.interpret(layer_model)
         self.model = self.model.partial_fit(data)
         pickle.dump(self.model, open(MODEL_FILENAME, 'wb'))
 
