@@ -19,8 +19,9 @@ class Layer:
 
     def __init__(self, filename: str):
         """Builds an interpretable data model from an instrument layer MP3 file."""
-        layer, _ = librosa.load(filename)
-        self.beats_per_minute = librosa.beat.tempo(layer)[0]
+        layer, sr = librosa.load(filename)
+        onset_env = librosa.onset.onset_strength(y=layer, sr=sr)
+        self.beats_per_minute = librosa.beat.tempo(onset_envelope=onset_env, sr=sr)[0]
         sixteenth_notes_per_second = self.beats_per_minute * 4 / 60
         sixteenth_note_interval = 1000 / sixteenth_notes_per_second
         layer = AudioSegment.from_mp3(filename)
@@ -31,3 +32,4 @@ class Layer:
             note(interval) if note_present else None
             for interval, note_present in zip(intervals, note_present_per_interval)
         ]
+        print(self.note_sequence)

@@ -9,7 +9,7 @@ recommender = Recommender()
 @app.route('/add', methods=['POST'])
 def add_song():
     song = request.get_json()
-    # TODO recommender.add(song)
+    recommender.add(song)
     return f"{song['title']} added to library!"
 
 
