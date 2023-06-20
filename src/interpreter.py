@@ -1,11 +1,11 @@
-from .layer_model import LayerModel
+from .layer import Layer
 
 
 class Interpreter:
     def __init__(self):
         raise NotImplementedError
 
-    def interpret(self, layer: LayerModel):
+    def interpret(self, layer: Layer):
         """Converts a layer model into a dataframe with relevant song information."""
         raise NotImplementedError
 
