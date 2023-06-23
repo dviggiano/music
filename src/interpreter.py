@@ -8,5 +8,5 @@ class Interpreter:
         raise NotImplementedError
 
     def orchestrate(self, layers):
-        """Synthesizes users on individual layers into users about the entire song."""
+        """Synthesizes data on individual layers into data about the entire song."""
         raise NotImplementedError
