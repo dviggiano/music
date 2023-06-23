@@ -1,5 +1,4 @@
 import csv
-
 from flask import Flask, request, jsonify, render_template
 
 from src import Engine, SONG_LIST_FILENAME
