@@ -31,6 +31,6 @@ pip install -r requirements.txt
 Finally, run a development server:
 
 ```
-flask run --host=0.0.0.0
+flask run
 ```
-You should then be able to interact with the API from your browser at the port linked in your console.
+You should then be able to interact with the API from your browser at `http://localhost:5000`.
