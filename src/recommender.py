@@ -29,7 +29,7 @@ class Recommender:
         self.jobs = 0
 
     def add(self, song: FileStorage):
-        """Converts song into relevant users, then adds it to the library."""
+        """Converts song into relevant data, then adds it to the library."""
         # temporarily, only handle songs with one instrument layer
         # layers = map(Layer, self.isolator.isolate(song))
         # data_per_layer = map(self.interpreter.interpret, layers)
