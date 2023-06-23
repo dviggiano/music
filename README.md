@@ -1,4 +1,4 @@
-# [WIP] Music Recommendation Engine
+# [WIP] Notation
 
 Prototype for a music recommendation engine based purely on musical attributes.
 
