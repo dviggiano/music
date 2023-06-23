@@ -1,9 +1,9 @@
 from flask import Flask, request, jsonify, render_template
 
-from src import Recommender
+from src import Engine
 
 app = Flask(__name__)
-recommender = Recommender()
+recommender = Engine()
 
 
 @app.route('/songs', methods=['GET'])

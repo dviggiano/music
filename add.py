@@ -7,10 +7,10 @@ import os
 import requests
 
 URL = 'http://localhost:5000/add'
-cwd = os.getcwd()
+songs = os.path.join(os.getcwd(), 'songs')
 
-for filename in os.listdir(cwd):
-    path = os.path.join(cwd, filename)
+for filename in os.listdir(songs):
+    path = os.path.join(songs, filename)
 
     if filename.endswith('.mp3'):
         with open(path, 'rb') as f:

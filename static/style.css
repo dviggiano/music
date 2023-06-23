@@ -3,7 +3,7 @@ body {
     padding-left: 20px;
     padding-right: 20px;
     color: #dbdbdb;
-    background-color: #272727;
+    background-color: #262626;
 }
 
 #header {
@@ -24,5 +24,6 @@ label {
     margin: 10px 5px;
     padding: 5px 10px;
     width: 100%;
-    background-color: #242424;
+    background: linear-gradient(to bottom, #252525, #232323);
+    box-shadow: 1px 1px 2px rgba(32, 32, 32, 0.3);
 }

@@ -1,7 +1,7 @@
 from .layer import Layer
 
 DATAPOINTS = [
-    ''
+
 ]
 
 

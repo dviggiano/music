@@ -14,6 +14,16 @@ MODEL_FILENAME = 'model.sav'
 NUM_CLUSTERS = 8
 
 
+def load_songs():
+    try:
+        with open(SONG_DATA_FILENAME, 'r') as f:
+            reader = csv.reader(f)
+            next(reader)  # skip the header
+            return list(reader)
+    except FileNotFoundError:
+        return []
+
+
 def load_model():
     if os.path.exists(MODEL_FILENAME):
         return pickle.load(open(MODEL_FILENAME, 'rb'))
@@ -23,6 +33,7 @@ def load_model():
     pickle.dump(model, open(MODEL_FILENAME, 'wb'))
     return model
 
+
 def save_song(data):
     csv_exists = os.path.isfile(SONG_DATA_FILENAME)
 
@@ -30,16 +41,17 @@ def save_song(data):
         writer = csv.writer(f)
 
         if not csv_exists:
-            writer.writerow(column_names)
+            writer.writerow(['name', 'length'])
 
         writer.writerow(data)
 
 
-class Recommender:
+class Engine:
     def __init__(self):
         self.isolator = Isolator()
         self.interpreter = Interpreter()
         self.model = load_model()
+        self.songs = load_songs()
         self.jobs = 0
 
     def add(self, song: FileStorage):
@@ -56,12 +68,11 @@ class Recommender:
         print(layer.note_sequence)
         data = self.interpreter.interpret(layer)
         self.model = self.model.partial_fit(data)
-        save_song(data)
+        entry = {'name': song.filename.rstrip('.mp3'), 'length': layer.duration}
+        save_song(entry.values())
+        self.songs.append(entry.values())
         pickle.dump(self.model, open(MODEL_FILENAME, 'wb'))
-        return {
-            'name': song.filename.rstrip('.mp3'),
-            'length': layer.duration,
-        }
+        return entry
 
     def recommend(self, params):
         """Recommends a particular amount of songs based on user's past listening experiences."""
