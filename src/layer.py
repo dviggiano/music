@@ -15,13 +15,14 @@ def note(interval: AudioSegment):
 
 
 class Layer:
-    """An interpretable data model of an instrument layer of a song."""
+    """An interpretable users model of an instrument layer of a song."""
 
     def __init__(self, filename: str):
-        """Builds an interpretable data model from an instrument layer MP3 file."""
-        layer, sr = librosa.load(filename)
-        onset_env = librosa.onset.onset_strength(y=layer, sr=sr)
-        self.beats_per_minute = librosa.beat.tempo(onset_envelope=onset_env, sr=sr)[0]
+        """Builds an interpretable users model from an instrument layer MP3 file."""
+        layer, sampling_rate = librosa.load(filename)
+        self.duration = librosa.get_duration(y=layer, sr=sampling_rate)
+        onset_env = librosa.onset.onset_strength(y=layer, sr=sampling_rate)
+        self.beats_per_minute = librosa.beat.tempo(onset_envelope=onset_env, sr=sampling_rate)[0]
         sixteenth_notes_per_second = self.beats_per_minute * 4 / 60
         sixteenth_note_interval = 1000 / sixteenth_notes_per_second
         layer = AudioSegment.from_mp3(filename)
