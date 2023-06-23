@@ -24,7 +24,7 @@ class Layer:
         onset_envelope = librosa.onset.onset_strength(y=layer, sr=sampling_rate)
         self.beats_per_minute = librosa.beat.tempo(onset_envelope=onset_envelope, sr=sampling_rate)[0]
         sixteenth_notes_per_second = self.beats_per_minute * 4 / 60
-        sixteenth_note_interval = 1000 / sixteenth_notes_per_second
+        sixteenth_note_interval = int(1000 / sixteenth_notes_per_second)
         layer = AudioSegment.from_mp3(filename)
         intervals = layer[::sixteenth_note_interval]
         volume_per_interval = [interval.dBFS for interval in intervals]

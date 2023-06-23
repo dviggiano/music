@@ -39,6 +39,7 @@ class Recommender:
         song.save(temp_filename)
         layer = Layer(temp_filename)
         os.remove(temp_filename)
+        print(layer.note_sequence)
         data = self.interpreter.interpret(layer)
         self.model = self.model.partial_fit(data)
         pickle.dump(self.model, open(MODEL_FILENAME, 'wb'))
