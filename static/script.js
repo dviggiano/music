@@ -4,18 +4,22 @@ const userSelector = document.getElementById('user');
 let songs = false;
 
 function addSong(song) {
+    const number = document.getElementById('number');
+
     if (!songs) {
+        songs = true;
+        number.min = 1;
         const form = document.getElementById('listen');
         form.style.display = 'block';
         const message = document.getElementById('empty');
         message.style.display = 'none';
-        songs = true;
     }
 
     const option = document.createElement('option');
     option.text = `${song.name} (${song.length}s)`;
     option.value = JSON.stringify(song);
     songSelector.add(option);
+    number.max = Number(number.max) + 1;
 }
 
 async function reset() {
