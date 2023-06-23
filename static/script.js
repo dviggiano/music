@@ -5,7 +5,7 @@ let songs = false;
 
 function addSong(song) {
     if (!songs) {
-        const form = document.getElementById('record');
+        const form = document.getElementById('listen');
         form.style.display = 'block';
         const message = document.getElementById('empty');
         message.style.display = 'none';

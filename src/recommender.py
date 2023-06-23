@@ -1,7 +1,7 @@
 import os
 import pickle
 from sklearn.cluster import KMeans
-from flask import FileStorage
+from werkzeug.datastructures import FileStorage
 
 from .interpreter import Interpreter
 from .isolator import Isolator
