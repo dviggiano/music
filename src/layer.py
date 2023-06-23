@@ -21,8 +21,8 @@ class Layer:
         """Builds an interpretable users model from an instrument layer MP3 file."""
         layer, sampling_rate = librosa.load(filename)
         self.duration = librosa.get_duration(y=layer, sr=sampling_rate)
-        onset_env = librosa.onset.onset_strength(y=layer, sr=sampling_rate)
-        self.beats_per_minute = librosa.beat.tempo(onset_envelope=onset_env, sr=sampling_rate)[0]
+        onset_envelope = librosa.onset.onset_strength(y=layer, sr=sampling_rate)
+        self.beats_per_minute = librosa.beat.tempo(onset_envelope=onset_envelope, sr=sampling_rate)[0]
         sixteenth_notes_per_second = self.beats_per_minute * 4 / 60
         sixteenth_note_interval = 1000 / sixteenth_notes_per_second
         layer = AudioSegment.from_mp3(filename)

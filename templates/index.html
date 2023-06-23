@@ -6,42 +6,54 @@
             <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
       </head>
       <body>
-            <h1>Notation</h1>
-            <p>
-                This is a <b>demo interface</b> for a music recommendation engine <b>prototype API</b>.
-            </p>
-            <label for="user">Select User:</label>
-            <select id="user" name="user">
-                <option>dviggiano</option>
-                <option>music_listener95</option>
-                <option>numbersfromthehatch23</option>
-                <option>notch</option>
-            </select>
-            <button onclick="reset()">Reset listening history</button>
-            <h2>Add Song</h2>
-            <form id="add" enctype="multipart/form-data">
-                <input type="file" id="file-input" accept=".mp3" />
-                <input type="submit" value="Submit" />
-            </form>
-            <h2>Record Listening Session</h2>
-            <p id="empty">Add some songs first!</p>
-            <form id="listen" style="display: none">
-                <label for="song">Song:</label>
-                <select id="song" name="song"></select>
-                <input type="submit" value="Submit" />
-                <br />
-                <input type="number" id="start" placeholder="Enter in seconds...">
-                <label for="start" style="font-size: small">Start Time</label>
-                <br />
-                <input type="number" id="end" placeholder="Enter in seconds...">
-                <label for="end"  style="font-size: small">End Time</label>
-            </form>
-            <h2>Recommend Songs</h2>
-            <form id="recommend">
-                <label for="number">Amount:</label>
-                <input type="number" id="number" name="number" min="1" max="10" />
-                <input type="submit" value="Submit" />
-            </form>
+            <div id="header">
+                <h1>Notation</h1>
+                <p>
+                    This is a <b>demo interface</b> for a music recommendation engine <b>prototype API</b>.
+                </p>
+                <div id="select-user">
+                    <label for="user">Select User:</label>
+                    <select id="user" name="user">
+                        <option>dviggiano</option>
+                        <option>music_listener95</option>
+                        <option>numbersfromthehatch23</option>
+                        <option>notch</option>
+                    </select>
+                    <button onclick="reset()">Reset listening history</button>
+                </div>
+            </div>
+            <div id="demos">
+                <div>
+                    <h2>Add Song</h2>
+                    <form id="add" enctype="multipart/form-data">
+                        <input type="file" id="file-input" accept=".mp3" />
+                        <input type="submit" value="Submit" />
+                    </form>
+                </div>
+                <div>
+                    <h2>Record Listening Session</h2>
+                    <p id="empty">Add some songs first!</p>
+                    <form id="listen" style="display: none">
+                        <label for="song">Song:</label>
+                        <select id="song" name="song"></select>
+                        <input type="submit" value="Submit" />
+                        <br />
+                        <input type="number" id="start" placeholder="Enter in seconds...">
+                        <label for="start" style="font-size: small">Start Time</label>
+                        <br />
+                        <input type="number" id="end" placeholder="Enter in seconds...">
+                        <label for="end"  style="font-size: small">End Time</label>
+                    </form>
+                </div>
+                <div>
+                    <h2>Recommend Songs</h2>
+                    <form id="recommend">
+                        <label for="number">Amount:</label>
+                        <input type="number" id="number" name="number" min="1" max="10" />
+                        <input type="submit" value="Submit" />
+                    </form>
+                </div>
+            </div>
             <script src="{{ url_for('static', filename='script.js') }}"></script>
       </body>
 </html>
