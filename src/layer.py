@@ -15,7 +15,7 @@ def note(interval: AudioSegment):
 
 
 class Layer:
-    """An interpretable users model of an instrument layer of a song."""
+    """An interpretable data model of an instrument layer of a song."""
 
     def __init__(self, filename: str):
         """Builds an interpretable users model from an instrument layer MP3 file."""
