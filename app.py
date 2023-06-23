@@ -3,7 +3,7 @@ from flask import Flask, request, jsonify, render_template
 from src import Engine
 
 app = Flask(__name__)
-recommender = Engine()
+engine = Engine()
 
 
 @app.route('/songs', methods=['GET'])
@@ -21,7 +21,7 @@ def reset():
 @app.route('/add', methods=['POST'])
 def add_song():
     song = request.files['file']
-    response = recommender.add(song)
+    response = engine.add(song)
     return jsonify(response)
 
 
@@ -35,7 +35,7 @@ def listen_to_song():
 @app.route('/recommend', methods=['GET'])
 def recommend():
     params = request.get_json()
-    # TODO songs = recommender.recommend(params)
+    # TODO songs = engine.recommend(params)
     # response = { 'songs': songs }
     # return jsonify(response)
     return f"This route will provide a set of recommendations for {params['user']}."

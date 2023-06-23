@@ -4,7 +4,7 @@ import pickle
 from sklearn.cluster import KMeans
 from werkzeug.datastructures import FileStorage
 
-from .interpreter import Interpreter
+from .interpreter import interpret, orchestrate
 from .isolator import Isolator
 from .layer import Layer
 
@@ -49,7 +49,6 @@ def save_song(data):
 class Engine:
     def __init__(self):
         self.isolator = Isolator()
-        self.interpreter = Interpreter()
         self.model = load_model()
         self.songs = load_songs()
         self.jobs = 0
@@ -59,14 +58,13 @@ class Engine:
         # temporarily, only handle songs with one instrument layer
         # layers = map(Layer, self.isolator.isolate(song))
         # data_per_layer = map(self.interpreter.interpret, layers)
-        # users = self.interpreter.orchestrate(data_per_layer)
+        # data = orchestrate(data_per_layer)
         temp_filename = os.path.abspath(f'temp/{self.jobs}.mp3')
         self.jobs += 1
         song.save(temp_filename)
         layer = Layer(temp_filename)
         os.remove(temp_filename)
-        print(layer.note_sequence)
-        data = self.interpreter.interpret(layer)
+        data = interpret(layer)
         self.model = self.model.partial_fit(data)
         entry = {'name': song.filename.rstrip('.mp3'), 'length': layer.duration}
         save_song(entry.values())
@@ -76,5 +74,4 @@ class Engine:
 
     def recommend(self, params):
         """Recommends a particular amount of songs based on user's past listening experiences."""
-        _ = self
-        return ['' for _ in range(params['amount'])]
+        raise NotImplementedError

@@ -2,14 +2,14 @@ from pydub import AudioSegment
 import numpy as np
 import librosa
 
-NOTE_THRESHOLD = -32  # decibels required for sound to be considered a note
+NOTE_THRESHOLD = -34  # decibels required for sound to be considered a note
 
 
 def note(interval: AudioSegment):
     """Returns the note at a given interval of a pydub AudioSegment using a Fast-Fourier transform."""
-    audio_data = interval.get_array_of_samples()
-    audio_array = np.array(audio_data)
-    fft = np.fft.fft(audio_array)
+    samples = interval.get_array_of_samples()
+    audio_data = np.array(samples)
+    fft = np.fft.fft(audio_data)
     dominant_frequency = np.argmax(np.abs(fft))
     return librosa.hz_to_note(dominant_frequency)
 
@@ -26,10 +26,9 @@ class Layer:
         sixteenth_notes_per_second = self.beats_per_minute * 4 / 60
         sixteenth_note_interval = int(1000 / sixteenth_notes_per_second)
         layer = AudioSegment.from_mp3(filename)
-        intervals = layer[::sixteenth_note_interval]
-        volume_per_interval = [interval.dBFS for interval in intervals]
-        note_present_per_interval = [volume > NOTE_THRESHOLD for volume in volume_per_interval]
+        intervals = [(interval, interval.dBFS) for interval in layer[::sixteenth_note_interval]]
+        note_present_per_interval = [volume > NOTE_THRESHOLD for _, volume in intervals]
         self.note_sequence = [
             note(interval) if note_present else None
-            for interval, note_present in zip(intervals, note_present_per_interval)
+            for (interval, _), note_present in zip(intervals, note_present_per_interval)
         ]
