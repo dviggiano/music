@@ -6,6 +6,12 @@ app = Flask(__name__)
 recommender = Recommender()
 
 
+@app.route('/reset', methods=['PATCH'])
+def reset():
+    # TODO reset user data
+    return
+
+
 @app.route('/add', methods=['POST'])
 def add_song():
     song = request.get_json()

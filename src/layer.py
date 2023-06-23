@@ -1,5 +1,5 @@
-import numpy as np
 from pydub import AudioSegment
+import numpy as np
 import librosa
 
 NOTE_THRESHOLD = -32  # decibels required for sound to be considered a note
@@ -32,4 +32,3 @@ class Layer:
             note(interval) if note_present else None
             for interval, note_present in zip(intervals, note_present_per_interval)
         ]
-        print(self.note_sequence)

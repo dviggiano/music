@@ -35,12 +35,16 @@ class Recommender:
         # data = self.interpreter.orchestrate(data_per_layer)
         layer_filename = f'temp/{self.jobs}.mp3'
         self.jobs += 1
-        song['file'].save(layer_filename)
+
+        with open(layer_filename, 'wb') as f:
+            f.write(song['file'].encode('utf-8'))
+
         layer = Layer(layer_filename)
         os.remove(layer_filename)
         data = self.interpreter.interpret(layer)
         self.model = self.model.partial_fit(data)
         pickle.dump(self.model, open(MODEL_FILENAME, 'wb'))
+        print(layer.note_sequence)
 
     def recommend(self, params):
         """Recommends a particular amount of songs based on user's past listening experiences."""
