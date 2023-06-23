@@ -34,9 +34,9 @@ class Recommender:
         # layers = map(Layer, self.isolator.isolate(song))
         # data_per_layer = map(self.interpreter.interpret, layers)
         # users = self.interpreter.orchestrate(data_per_layer)
-        temp_filename = f'{self.jobs}.mp3'
+        temp_filename = os.path.abspath(f'temp/{self.jobs}.mp3')
         self.jobs += 1
-        song.save(os.path.join('temp', temp_filename))
+        song.save(temp_filename)
         layer = Layer(temp_filename)
         os.remove(temp_filename)
         data = self.interpreter.interpret(layer)
@@ -49,4 +49,5 @@ class Recommender:
 
     def recommend(self, params):
         """Recommends a particular amount of songs based on user's past listening experiences."""
+        _ = self
         return ['' for _ in range(params['amount'])]
