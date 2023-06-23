@@ -1,3 +1,4 @@
+import csv
 import os
 import pickle
 from sklearn.cluster import KMeans
@@ -7,6 +8,8 @@ from .interpreter import Interpreter
 from .isolator import Isolator
 from .layer import Layer
 
+SONG_DATA_FILENAME = 'songs.csv'
+USER_DATA_FILENAME = 'users.csv'
 MODEL_FILENAME = 'model.sav'
 NUM_CLUSTERS = 8
 
@@ -19,6 +22,17 @@ def load_model():
     # TODO train using saved song library
     pickle.dump(model, open(MODEL_FILENAME, 'wb'))
     return model
+
+def save_song(data):
+    csv_exists = os.path.isfile(SONG_DATA_FILENAME)
+
+    with open(SONG_DATA_FILENAME, 'a') as f:
+        writer = csv.writer(f)
+
+        if not csv_exists:
+            writer.writerow(column_names)
+
+        writer.writerow(data)
 
 
 class Recommender:
@@ -42,6 +56,7 @@ class Recommender:
         print(layer.note_sequence)
         data = self.interpreter.interpret(layer)
         self.model = self.model.partial_fit(data)
+        save_song(data)
         pickle.dump(self.model, open(MODEL_FILENAME, 'wb'))
         return {
             'name': song.filename.rstrip('.mp3'),

@@ -35,7 +35,7 @@ async function reset() {
         alert(
             response.status === 200 ?
             `Reset listening history for ${user}.` :
-            `Could not reset listening history for ${user} (response status ${response.status}).`
+            `Failed to reset listening history for ${user} (response status ${response.status}).`
         );
     }
 }

@@ -1,5 +1,9 @@
 from .layer import Layer
 
+DATAPOINTS = [
+    ''
+]
+
 
 class Interpreter:
 
