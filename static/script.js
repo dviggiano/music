@@ -15,7 +15,7 @@ function addSong(song) {
     }
 
     const option = document.createElement('option');
-    option.text = `${song.name} (${song.length}s)`;
+    option.text = `${song.name} (${song.duration}s)`;
     option.value = JSON.stringify(song);
     const songSelector = document.getElementById('song');
     songSelector.add(option);

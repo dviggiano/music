@@ -4,19 +4,20 @@ import pickle
 from sklearn.cluster import KMeans
 from werkzeug.datastructures import FileStorage
 
-from .interpreter import interpret, orchestrate
+from .interpreter import FEATURES, interpret, orchestrate
 from .isolator import Isolator
 from .layer import Layer
 
-SONG_DATA_FILENAME = 'songs.csv'
+SONG_DATA_FILENAME = 'song_data.csv'
+SONG_LIST_FILENAME = 'song_list.csv'
 USER_DATA_FILENAME = 'users.csv'
 MODEL_FILENAME = 'model.sav'
-NUM_CLUSTERS = 8
+N_CLUSTERS = 8
 
 
 def load_songs():
     try:
-        with open(SONG_DATA_FILENAME, 'r') as f:
+        with open(SONG_LIST_FILENAME, 'r') as f:
             reader = csv.reader(f)
             next(reader)  # skip the header
             return list(reader)
@@ -25,32 +26,32 @@ def load_songs():
 
 
 def load_model():
-    if os.path.exists(MODEL_FILENAME):
-        return pickle.load(open(MODEL_FILENAME, 'rb'))
+    if not os.path.exists(SONG_DATA_FILENAME):
+        with open(SONG_DATA_FILENAME, 'w') as f:
+            writer = csv.writer(f)
+            writer.writerow(FEATURES)
 
-    model = KMeans(n_clusters=NUM_CLUSTERS)
-    # TODO train using saved song library
-    pickle.dump(model, open(MODEL_FILENAME, 'wb'))
-    return model
+    with open(SONG_DATA_FILENAME, 'r') as f:
+        reader = csv.reader(f)
+        next(reader)  # skip the header
+        data = [row for row in reader if len(row) > 0]
 
+    n_clusters = min(N_CLUSTERS, len(data))
 
-def save_song(data):
-    csv_exists = os.path.isfile(SONG_DATA_FILENAME)
+    model = pickle.load(open(MODEL_FILENAME, 'rb')) if os.path.exists(MODEL_FILENAME) else KMeans(n_clusters=n_clusters)
 
-    with open(SONG_DATA_FILENAME, 'a') as f:
-        writer = csv.writer(f)
+    if len(data) > 0:
+        model.fit(data)
+        pickle.dump(model, open(MODEL_FILENAME, 'wb'))
 
-        if not csv_exists:
-            writer.writerow(['name', 'length'])
-
-        writer.writerow(data)
+    return model, data
 
 
 class Engine:
     def __init__(self):
         self.isolator = Isolator()
-        self.model = load_model()
-        self.songs = load_songs()
+        self.model, self.song_data = load_model()
+        self.song_list = load_songs()
         self.jobs = 0
 
     def add(self, song: FileStorage):
@@ -65,12 +66,36 @@ class Engine:
         layer = Layer(temp_filename)
         os.remove(temp_filename)
         data = interpret(layer)
-        self.model = self.model.partial_fit(data)
-        entry = {'name': song.filename.rstrip('.mp3'), 'length': layer.duration}
-        save_song(entry.values())
-        self.songs.append(entry.values())
-        pickle.dump(self.model, open(MODEL_FILENAME, 'wb'))
+        self.train(data)
+        entry = {'name': song.filename.rstrip('.mp3'), 'duration': layer.duration}
+        self.save_song(entry.values())
         return entry
+
+    def train(self, data):
+        self.song_data.append(data)
+        n_clusters = min(N_CLUSTERS, len(self.song_data))
+        self.model = KMeans(n_clusters=n_clusters)
+        self.model.fit(self.song_data)
+
+        with open(SONG_DATA_FILENAME, 'w') as f:
+            writer = csv.writer(f)
+            writer.writerow(FEATURES)
+            map(writer.writerow, self.song_data)
+
+        pickle.dump(self.model, open(MODEL_FILENAME, 'wb'))
+
+    def save_song(self, data):
+        csv_exists = os.path.isfile(SONG_LIST_FILENAME)
+
+        with open(SONG_LIST_FILENAME, 'a') as f:
+            writer = csv.writer(f)
+
+            if not csv_exists:
+                writer.writerow(['name', 'length'])
+
+            writer.writerow(data)
+
+        self.song_list.append(data)
 
     def recommend(self, params):
         """Recommends a particular amount of songs based on user's past listening experiences."""
