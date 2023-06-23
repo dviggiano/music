@@ -1,15 +1,23 @@
+import csv
+
 from flask import Flask, request, jsonify, render_template
 
-from src import Engine
+from src import Engine, SONG_LIST_FILENAME
 
 app = Flask(__name__)
 engine = Engine()
 
 
 @app.route('/songs', methods=['GET'])
-def songs():
-    # TODO return uploaded songs
-    return {}
+def get_songs():
+    songs = []
+
+    with open(SONG_LIST_FILENAME, 'r') as csv_file:
+        reader = csv.DictReader(csv_file)
+        for row in reader:
+            songs.append(row)
+
+    return jsonify({'songs': songs})
 
 
 @app.route('/reset', methods=['PATCH'])

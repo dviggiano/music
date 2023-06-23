@@ -41,9 +41,8 @@ async function reset() {
 }
 
 fetch('/songs', { method: 'GET' })
-    .then(response => {
-        const data = response.json();
-
+    .then(response => response.json())
+    .then(data => {
         if (data['songs']) {
             data['songs'].forEach(addSong);
         }
@@ -63,7 +62,7 @@ document.getElementById('add').addEventListener('submit', async event => {
         });
 
         if (response.status === 200) {
-            const song = response.json();
+            const song = await response.json();
             addSong(song);
         } else {
             alert(`Failed to upload song (response status ${response.status}).`)

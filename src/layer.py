@@ -20,7 +20,7 @@ class Layer:
     def __init__(self, filename: str):
         """Builds an interpretable users model from an instrument layer MP3 file."""
         layer, sampling_rate = librosa.load(filename)
-        self.duration = librosa.get_duration(y=layer, sr=sampling_rate)
+        self.duration = int(librosa.get_duration(y=layer, sr=sampling_rate))
         onset_envelope = librosa.onset.onset_strength(y=layer, sr=sampling_rate)
         self.beats_per_minute = librosa.beat.tempo(onset_envelope=onset_envelope, sr=sampling_rate)[0]
         sixteenth_notes_per_second = self.beats_per_minute * 4 / 60

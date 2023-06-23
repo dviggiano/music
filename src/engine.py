@@ -4,15 +4,10 @@ import pickle
 from sklearn.cluster import KMeans
 from werkzeug.datastructures import FileStorage
 
+from .constants import SONG_LIST_FILENAME, SONG_DATA_FILENAME, N_CLUSTERS, MODEL_FILENAME
 from .interpreter import FEATURES, interpret, orchestrate
 from .isolator import Isolator
 from .layer import Layer
-
-SONG_DATA_FILENAME = 'song_data.csv'
-SONG_LIST_FILENAME = 'song_list.csv'
-USER_DATA_FILENAME = 'users.csv'
-MODEL_FILENAME = 'model.sav'
-N_CLUSTERS = 8
 
 
 def load_songs():
@@ -91,7 +86,7 @@ class Engine:
             writer = csv.writer(f)
 
             if not csv_exists:
-                writer.writerow(['name', 'length'])
+                writer.writerow(['name', 'duration'])
 
             writer.writerow(data)
 
