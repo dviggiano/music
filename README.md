@@ -15,22 +15,12 @@ Once downloaded, add the location of the FFmpeg executable to your system's PATH
 
 ### Running the app
 
-Create a virtual environment (recommended):
+Create and activate a virtual environment (recommended):
 
 ```
 python3 -m venv venv
-```
-
-Activate it on Windows:
-
-```
-venv\Scripts\activate
-```
-
-Or with Bash (Mac OS/Linux):
-
-```
-source venv/bin/activate
+venv\Scripts\activate # Windows
+source venv/bin/activate # Bash (Mac OS/Linux)
 ```
 
 Install dependencies:
