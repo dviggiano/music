@@ -23,7 +23,7 @@ def reset():
 
 
 @app.route('/add', methods=['POST'])
-def add_song():
+def add_song():  # please note that CORS is not enabled
     song = request.files['file']
     response = engine.add(song)
     return jsonify(response)
