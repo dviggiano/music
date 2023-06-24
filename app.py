@@ -9,12 +9,9 @@ engine = Engine()
 
 @app.route('/songs', methods=['GET'])
 def get_songs():
-    songs = []
-
     with open(SONG_LIST_FILENAME, 'r') as csv_file:
         reader = csv.DictReader(csv_file)
-        for row in reader:
-            songs.append(row)
+        songs = list(reader)
 
     return jsonify({'songs': songs})
 
