@@ -34,4 +34,7 @@ Finally, run a development server:
 ```
 flask run
 ```
+
 You should then be able to interact with the API from your browser at `http://localhost:5000`.
+The interface is intended to be run on your local machine, so
+[CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) is not enabled.
