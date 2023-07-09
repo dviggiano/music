@@ -7,7 +7,7 @@ URL = 'http://localhost:5000/add'
 def add():
     """
     Adds several songs at a time. Depends on the API running
-    and the `songs` directory being populated with MP3 files.
+    and a `songs` directory being populated with MP3 files.
     """
     songs = os.path.join(os.getcwd(), 'songs')
 

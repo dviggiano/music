@@ -2,6 +2,10 @@ from .layer import Layer
 
 FEATURES = [
     'bpm',
+    # 'key',
+    # 'major',
+    # 'dominant_range',
+    # 'avg_notes_per_measure',
 ]
 
 

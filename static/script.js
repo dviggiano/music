@@ -40,14 +40,6 @@ async function reset() {
     }
 }
 
-fetch('/songs', { method: 'GET' })
-    .then(response => response.json())
-    .then(data => {
-        if (data['songs']) {
-            data['songs'].forEach(addSong);
-        }
-    });
-
 document.getElementById('add').addEventListener('submit', async event => {
     event.preventDefault();
     const input = document.getElementById('file-input');
@@ -77,3 +69,11 @@ document.getElementById('listen').addEventListener('submit', event => {
 document.getElementById('recommend').addEventListener('submit', event => {
     event.preventDefault();
 });
+
+fetch('/songs', { method: 'GET' })
+    .then(response => response.json())
+    .then(data => {
+        if (data['songs']) {
+            data['songs'].forEach(addSong);
+        }
+    });
