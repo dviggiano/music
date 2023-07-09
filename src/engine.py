@@ -11,13 +11,13 @@ from .layer import Layer
 
 
 def load_songs():
-    try:
+    if os.path.exists(SONG_LIST_FILENAME):
         with open(SONG_LIST_FILENAME, 'r') as f:
             reader = csv.reader(f)
             next(reader)  # skip the header
             return list(reader)
-    except FileNotFoundError:
-        return []
+
+    return []
 
 
 def load_model():
