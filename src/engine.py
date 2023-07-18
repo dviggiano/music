@@ -68,7 +68,7 @@ class Engine:
 
     def train(self, data):
         self.song_data.append(data)
-        n_clusters = min(N_CLUSTERS, len(self.song_data))
+        n_clusters = min(N_CLUSTERS, len(self.song_data))  # TODO optimize with silhouette score
         self.model = KMeans(n_clusters=n_clusters)
         self.model.fit(self.song_data)
 
