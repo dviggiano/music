@@ -31,7 +31,7 @@ def load_model():
         next(reader)  # skip the header
         data = [row for row in reader if len(row) > 0]
 
-    n_clusters = min(N_CLUSTERS, len(data))
+    n_clusters = min(N_CLUSTERS, len(data))  # TODO optimize with silhouette score
 
     model = pickle.load(open(MODEL_FILENAME, 'rb')) if os.path.exists(MODEL_FILENAME) else KMeans(n_clusters=n_clusters)
 
