@@ -1,10 +1,10 @@
 import csv
 import os
 import pickle
-from sklearn.cluster import KMeans
 from werkzeug.datastructures import FileStorage
 
-from .constants import SONG_LIST_FILENAME, SONG_DATA_FILENAME, N_CLUSTERS, MODEL_FILENAME
+from .constants import SONG_LIST_FILENAME, SONG_DATA_FILENAME, MODEL_FILENAME
+from .model import Model
 from .interpreter import FEATURES, interpret, orchestrate
 from .isolator import Isolator
 from .layer import Layer
@@ -31,13 +31,14 @@ def load_model():
         next(reader)  # skip the header
         data = [row for row in reader if len(row) > 0]
 
-    n_clusters = min(N_CLUSTERS, len(data))
+    if os.path.exists(MODEL_FILENAME):
+        model = pickle.load(open(MODEL_FILENAME, 'rb'))
+    else:
+        model = Model()
 
-    model = pickle.load(open(MODEL_FILENAME, 'rb')) if os.path.exists(MODEL_FILENAME) else KMeans(n_clusters=n_clusters)
-
-    if len(data) > 0:
-        model.fit(data)
-        pickle.dump(model, open(MODEL_FILENAME, 'wb'))
+        if data:
+            model.fit(data)
+            pickle.dump(model, open(MODEL_FILENAME, 'wb'))
 
     return model, data
 
@@ -68,14 +69,18 @@ class Engine:
 
     def train(self, data):
         self.song_data.append(data)
-        n_clusters = min(N_CLUSTERS, len(self.song_data))
-        self.model = KMeans(n_clusters=n_clusters)
-        self.model.fit(self.song_data)
+        self.model.append(self.song_data)
 
-        with open(SONG_DATA_FILENAME, 'w') as f:
+        csv_exists = os.path.isfile(SONG_DATA_FILENAME)
+
+        with open(SONG_DATA_FILENAME, 'a') as f:
             writer = csv.writer(f)
-            writer.writerow(FEATURES)
-            map(writer.writerow, self.song_data)
+
+            if csv_exists:
+                writer.writerow(data)
+            else:
+                writer.writerow(FEATURES)
+                map(writer.writerow, self.song_data)
 
         pickle.dump(self.model, open(MODEL_FILENAME, 'wb'))
 
@@ -94,6 +99,6 @@ class Engine:
 
     def recommend(self, params):
         """Recommends a particular amount of songs based on user's past listening experiences."""
-        # TODO based on user's listening sessions, sort clusters by expected preference
-        # and recommend a particular amount of songs from appropriate clusters
+        # TODO based on user's listening sessions
+        #   project some points where they might be interested and find nearest neighbors
         raise NotImplementedError

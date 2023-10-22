@@ -32,7 +32,7 @@ def add_song():  # please note that CORS is not enabled
 @app.route('/listen', methods=['POST'])
 def listen_to_song():
     session = request.get_json()
-    # TODO record listening session in user users
+    # TODO record listening session in user data
     return f"{session['user']} listened to {session['song']} from {session['start']} to {session['end']}!"
 
 
