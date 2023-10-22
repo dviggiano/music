@@ -1,6 +1,6 @@
 # [WIP] Notation
 
-Prototype for a music recommendation engine based purely on musical attributes.
+REST API to interface with a prototype for a music recommendation engine based purely on musical features.
 
 ## Getting started
 
